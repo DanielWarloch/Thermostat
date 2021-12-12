@@ -1,0 +1,119 @@
+Service [0;1;39morg.freedesktop.DBus[0m:
+└─/org/freedesktop/DBus
+
+Service [0;1;39morg.freedesktop.systemd1[0m:
+└─/org
+  └─/org/freedesktop
+    └─/org/freedesktop/systemd1
+      ├─/org/freedesktop/systemd1/job
+      └─/org/freedesktop/systemd1/unit
+        ├─/org/freedesktop/systemd1/unit/_2d_2emount
+        ├─/org/freedesktop/systemd1/unit/_2d_2eslice
+        ├─/org/freedesktop/systemd1/unit/basic_2etarget
+        ├─/org/freedesktop/systemd1/unit/boot_2emount
+        ├─/org/freedesktop/systemd1/unit/dbus_2eservice
+        ├─/org/freedesktop/systemd1/unit/dbus_2esocket
+        ├─/org/freedesktop/systemd1/unit/default_2etarget
+        ├─/org/freedesktop/systemd1/unit/dev_2ddisk_2dby_5cx2did_2dmmc_5cx2dSA32G_5f0x2a5cc758_2edevice
+        ├─/org/freedesktop/systemd1/unit/dev_2ddisk_2dby_5cx2did_2dmmc_5cx2dSA32G_5f0x2a5cc758_5cx2dpart1_2edevice
+        ├─/org/freedesktop/systemd1/unit/dev_2ddisk_2dby_5cx2did_2dmmc_5cx2dSA32G_5f0x2a5cc758_5cx2dpart2_2edevice
+        ├─/org/freedesktop/systemd1/unit/dev_2ddisk_2dby_5cx2dlabel_2dboot_2edevice
+        ├─/org/freedesktop/systemd1/unit/dev_2ddisk_2dby_5cx2dlabel_2drootfs_2edevice
+        ├─/org/freedesktop/systemd1/unit/dev_2ddisk_2dby_5cx2dpartuuid_2d596cb906_5cx2d01_2edevice
+        ├─/org/freedesktop/systemd1/unit/dev_2ddisk_2dby_5cx2dpartuuid_2d596cb906_5cx2d02_2edevice
+        ├─/org/freedesktop/systemd1/unit/dev_2ddisk_2dby_5cx2dpath_2dplatform_5cx2dfe340000_2eemmc2_2edevice
+        ├─/org/freedesktop/systemd1/unit/dev_2ddisk_2dby_5cx2dpath_2dplatform_5cx2dfe340000_2eemmc2_5cx2dpart1_2edevice
+        ├─/org/freedesktop/systemd1/unit/dev_2ddisk_2dby_5cx2dpath_2dplatform_5cx2dfe340000_2eemmc2_5cx2dpart2_2edevice
+        ├─/org/freedesktop/systemd1/unit/dev_2ddisk_2dby_5cx2duuid_2d7616_5cx2d4FD8_2edevice
+        ├─/org/freedesktop/systemd1/unit/dev_2ddisk_2dby_5cx2duuid_2d87b585d1_5cx2d84c3_5cx2d486a_5cx2d8f3d_5cx2d77cf16f84f30_2edevice
+        ├─/org/freedesktop/systemd1/unit/dev_2dmmcblk0_2edevice
+        ├─/org/freedesktop/systemd1/unit/dev_2dmmcblk0p1_2edevice
+        ├─/org/freedesktop/systemd1/unit/dev_2dmmcblk0p2_2edevice
+        ├─/org/freedesktop/systemd1/unit/dev_2dmqueue_2emount
+        ├─/org/freedesktop/systemd1/unit/dev_2dram0_2edevice
+        ├─/org/freedesktop/systemd1/unit/dev_2dram10_2edevice
+        ├─/org/freedesktop/systemd1/unit/dev_2dram11_2edevice
+        ├─/org/freedesktop/systemd1/unit/dev_2dram12_2edevice
+        ├─/org/freedesktop/systemd1/unit/dev_2dram13_2edevice
+        ├─/org/freedesktop/systemd1/unit/dev_2dram14_2edevice
+        ├─/org/freedesktop/systemd1/unit/dev_2dram15_2edevice
+        ├─/org/freedesktop/systemd1/unit/dev_2dram1_2edevice
+        ├─/org/freedesktop/systemd1/unit/dev_2dram2_2edevice
+        ├─/org/freedesktop/systemd1/unit/dev_2dram3_2edevice
+        ├─/org/freedesktop/systemd1/unit/dev_2dram4_2edevice
+        ├─/org/freedesktop/systemd1/unit/dev_2dram5_2edevice
+        ├─/org/freedesktop/systemd1/unit/dev_2dram6_2edevice
+        ├─/org/freedesktop/systemd1/unit/dev_2dram7_2edevice
+        ├─/org/freedesktop/systemd1/unit/dev_2dram8_2edevice
+        ├─/org/freedesktop/systemd1/unit/dev_2dram9_2edevice
+        ├─/org/freedesktop/systemd1/unit/dev_2drfkill_2edevice
+        ├─/org/freedesktop/systemd1/unit/dev_2dserial1_2edevice
+        ├─/org/freedesktop/systemd1/unit/dev_2dttyAMA0_2edevice
+        ├─/org/freedesktop/systemd1/unit/dev_2dttyprintk_2edevice
+        ├─/org/freedesktop/systemd1/unit/dirmngr_2eservice
+        ├─/org/freedesktop/systemd1/unit/dirmngr_2esocket
+        ├─/org/freedesktop/systemd1/unit/gpg_2dagent_2dbrowser_2esocket
+        ├─/org/freedesktop/systemd1/unit/gpg_2dagent_2dextra_2esocket
+        ├─/org/freedesktop/systemd1/unit/gpg_2dagent_2dssh_2esocket
+        ├─/org/freedesktop/systemd1/unit/gpg_2dagent_2eservice
+        ├─/org/freedesktop/systemd1/unit/gpg_2dagent_2esocket
+        ├─/org/freedesktop/systemd1/unit/init_2escope
+        ├─/org/freedesktop/systemd1/unit/paths_2etarget
+        ├─/org/freedesktop/systemd1/unit/pulseaudio_2eservice
+        ├─/org/freedesktop/systemd1/unit/pulseaudio_2esocket
+        ├─/org/freedesktop/systemd1/unit/run_2drpc_5fpipefs_2emount
+        ├─/org/freedesktop/systemd1/unit/run_2duser_2d1000_2emount
+        ├─/org/freedesktop/systemd1/unit/shutdown_2etarget
+        ├─/org/freedesktop/systemd1/unit/sockets_2etarget
+        ├─/org/freedesktop/systemd1/unit/sys_2ddevices_2dplatform_2demmc2bus_2dfe340000_2eemmc2_2dmmc_5fhost_2dmmc0_2dmmc0_3a1234_2dblock_2dmmcblk0_2dmmcblk0p1_2edevice
+        ├─/org/freedesktop/systemd1/unit/sys_2ddevices_2dplatform_2demmc2bus_2dfe340000_2eemmc2_2dmmc_5fhost_2dmmc0_2dmmc0_3a1234_2dblock_2dmmcblk0_2dmmcblk0p2_2edevice
+        ├─/org/freedesktop/systemd1/unit/sys_2ddevices_2dplatform_2demmc2bus_2dfe340000_2eemmc2_2dmmc_5fhost_2dmmc0_2dmmc0_3a1234_2dblock_2dmmcblk0_2edevice
+        ├─/org/freedesktop/systemd1/unit/sys_2ddevices_2dplatform_2dscb_2dfd580000_2eethernet_2dnet_2deth0_2edevice
+        ├─/org/freedesktop/systemd1/unit/sys_2ddevices_2dplatform_2dsoc_2dfe00b840_2emailbox_2dbcm2835_5faudio_2dsound_2dcard0_2edevice
+        ├─/org/freedesktop/systemd1/unit/sys_2ddevices_2dplatform_2dsoc_2dfe201000_2eserial_2dtty_2dttyAMA0_2dhci0_2edevice
+        ├─/org/freedesktop/systemd1/unit/sys_2ddevices_2dplatform_2dsoc_2dfe201000_2eserial_2dtty_2dttyAMA0_2edevice
+        ├─/org/freedesktop/systemd1/unit/sys_2ddevices_2dplatform_2dsoc_2dfe300000_2emmcnr_2dmmc_5fhost_2dmmc1_2dmmc1_3a0001_2dmmc1_3a0001_3a1_2dnet_2dwlan0_2edevice
+        ├─/org/freedesktop/systemd1/unit/sys_2ddevices_2dvirtual_2dblock_2dram0_2edevice
+        ├─/org/freedesktop/systemd1/unit/sys_2ddevices_2dvirtual_2dblock_2dram10_2edevice
+        ├─/org/freedesktop/systemd1/unit/sys_2ddevices_2dvirtual_2dblock_2dram11_2edevice
+        ├─/org/freedesktop/systemd1/unit/sys_2ddevices_2dvirtual_2dblock_2dram12_2edevice
+        ├─/org/freedesktop/systemd1/unit/sys_2ddevices_2dvirtual_2dblock_2dram13_2edevice
+        ├─/org/freedesktop/systemd1/unit/sys_2ddevices_2dvirtual_2dblock_2dram14_2edevice
+        ├─/org/freedesktop/systemd1/unit/sys_2ddevices_2dvirtual_2dblock_2dram15_2edevice
+        ├─/org/freedesktop/systemd1/unit/sys_2ddevices_2dvirtual_2dblock_2dram1_2edevice
+        ├─/org/freedesktop/systemd1/unit/sys_2ddevices_2dvirtual_2dblock_2dram2_2edevice
+        ├─/org/freedesktop/systemd1/unit/sys_2ddevices_2dvirtual_2dblock_2dram3_2edevice
+        ├─/org/freedesktop/systemd1/unit/sys_2ddevices_2dvirtual_2dblock_2dram4_2edevice
+        ├─/org/freedesktop/systemd1/unit/sys_2ddevices_2dvirtual_2dblock_2dram5_2edevice
+        ├─/org/freedesktop/systemd1/unit/sys_2ddevices_2dvirtual_2dblock_2dram6_2edevice
+        ├─/org/freedesktop/systemd1/unit/sys_2ddevices_2dvirtual_2dblock_2dram7_2edevice
+        ├─/org/freedesktop/systemd1/unit/sys_2ddevices_2dvirtual_2dblock_2dram8_2edevice
+        ├─/org/freedesktop/systemd1/unit/sys_2ddevices_2dvirtual_2dblock_2dram9_2edevice
+        ├─/org/freedesktop/systemd1/unit/sys_2ddevices_2dvirtual_2dmisc_2drfkill_2edevice
+        ├─/org/freedesktop/systemd1/unit/sys_2ddevices_2dvirtual_2dnet_2dztbto6ijd5_2edevice
+        ├─/org/freedesktop/systemd1/unit/sys_2ddevices_2dvirtual_2dnet_2dztuga6t2ug_2edevice
+        ├─/org/freedesktop/systemd1/unit/sys_2ddevices_2dvirtual_2dtty_2dttyprintk_2edevice
+        ├─/org/freedesktop/systemd1/unit/sys_2dkernel_2dconfig_2emount
+        ├─/org/freedesktop/systemd1/unit/sys_2dkernel_2ddebug_2emount
+        ├─/org/freedesktop/systemd1/unit/sys_2dmodule_2dconfigfs_2edevice
+        ├─/org/freedesktop/systemd1/unit/sys_2dsubsystem_2dbluetooth_2ddevices_2dhci0_2edevice
+        ├─/org/freedesktop/systemd1/unit/sys_2dsubsystem_2dnet_2ddevices_2deth0_2edevice
+        ├─/org/freedesktop/systemd1/unit/sys_2dsubsystem_2dnet_2ddevices_2dwlan0_2edevice
+        ├─/org/freedesktop/systemd1/unit/sys_2dsubsystem_2dnet_2ddevices_2dztbto6ijd5_2edevice
+        ├─/org/freedesktop/systemd1/unit/sys_2dsubsystem_2dnet_2ddevices_2dztuga6t2ug_2edevice
+        ├─/org/freedesktop/systemd1/unit/timers_2etarget
+        └─/org/freedesktop/systemd1/unit/var_2dswap_2eswap
+
+Service [0;1;39morg.HCPanel[0m:
+└─/org
+  └─/org/HCPanel
+    ├─/org/HCPanel/Control
+    │ ├─/org/HCPanel/Control/Heating
+    │ │ └─/org/HCPanel/Control/Heating/Kitchen
+    │ ├─/org/HCPanel/Control/Lights
+    │ │ └─/org/HCPanel/Control/Lights/Kitchen
+    │ └─/org/HCPanel/Control/Ventilation
+    │   └─/org/HCPanel/Control/Ventilation/Kitchen
+    ├─/org/HCPanel/Sensors
+    │ └─/org/HCPanel/Sensors/BME280
+    └─/org/HCPanel/Thermostat

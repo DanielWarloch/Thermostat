@@ -24,7 +24,8 @@ fn main() {
     let mut addresses: Vec<u16> = Vec::new();
 
     thread::sleep(Duration::from_secs(
-        conf["Startup delay"].to_string().parse::<u64>().unwrap(),
+        1u64,
+        //conf["Startup delay"].to_string().parse::<u64>().unwrap(),
     ));
 
     if conf["AllowBusses"][0] == "all" {
@@ -45,7 +46,7 @@ fn main() {
         }
     }
 
-    println!("test1");
+   
     for addr in addresses{
         for path in &paths {
             let mut data: HashMap<String, String> = HashMap::new();
@@ -58,7 +59,7 @@ fn main() {
             }
         }
     }
-    println!("test2");
+  
     dbus_server::run();
     // let _ = match dbus_server::run(dbus_data) {
     //     Ok(_) => 0,

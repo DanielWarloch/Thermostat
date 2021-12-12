@@ -7,22 +7,19 @@ use regex::Regex;
 use linux_embedded_hal::{Delay, I2cdev};
 use bme280::BME280;
 use std::cell::RefCell;
-
+use std::process::Command;
 
 
 
 struct Thermostat {
-    min_temp: f32,
-    max_temp: f32,
-    temp_hysteresis_up: f32,
-    temp_hysteresis_down: f32,
-    auto: bool,
+    min_temp: u16,
+    max_temp: u16,
+    temperature_auto: bool,
     heating: bool,
     cooling: bool,
-    min_humidity: f32,
-    max_humidity: f32,
-    humidity_hysteresis_up: f32,
-    humidity_hysteresis_down: f32,
+    min_humidity: u16,
+    max_humidity: u16,
+    ventilation_auto: bool,
     ventilation: bool,
 }
 
@@ -38,53 +35,94 @@ impl Thermostat {
     }
 
     #[dbus_interface(property, name = "Min_temp")]
-    fn min_temp(&self) -> &f32 {
+    fn get_min_temp(&self) -> &u16 {
         &self.min_temp
     }
 
+    #[dbus_interface(property, name = "Min_temp")]
+    fn set_min_temp(&mut self, value: u16) {
+        if(value <= self.max_temp){
+            self.min_temp = value;
+        } else {
+            self.min_temp = self.max_temp;
+        }
+        
+    }
+
     #[dbus_interface(property, name = "Max_temp")]
-    fn max_temp(&self) -> &f32 {
+    fn get_max_temp(&self) -> &u16 {
         &self.max_temp
     }
 
-    #[dbus_interface(property, name = "Temp_hysteresis_up")]
-    fn temp_hysteresis_up(&self) -> &f32 {
-        &self.temp_hysteresis_up
+    #[dbus_interface(property, name = "Max_temp")]
+    fn set_max_temp(&mut self, value: u16) {
+        if(value >= self.min_temp){
+            self.max_temp = value;
+        } else {
+            self.max_temp = self.min_temp;
+        }
     }
 
-    #[dbus_interface(property, name = "Temp_hysteresis_down")]
-    fn temp_hysteresis_down(&self) -> &f32 {
-        &self.temp_hysteresis_down
+    #[dbus_interface(property, name = "Temperature_auto")]
+    fn get_temp_auto(&self) -> &bool {
+        &self.temperature_auto
     }
 
-    #[dbus_interface(property, name = "Auto")]
-    fn auto(&self) -> &bool {
-        &self.auto
+    #[dbus_interface(property, name = "Temperature_auto")]
+    fn set_temp_auto(&mut self, value: bool) {
+        self.temperature_auto = value;
     }
 
     #[dbus_interface(property, name = "Heating")]
-    fn heating(&self) -> &bool {
+    fn get_heating(&self) -> &bool {
         &self.heating
     }
 
+    #[dbus_interface(property, name = "Heating")]
+    fn set_heating(&mut self, value: bool){
+        self.cooling = !value;
+        self.heating = value;
+    }
+
     #[dbus_interface(property, name = "Cooling")]
-    fn cooling(&self) -> &bool {
+    fn get_cooling(&self) -> &bool {
         &self.cooling
     }
 
+    #[dbus_interface(property, name = "Cooling")]
+    fn set_cooling(&mut self, value: bool) {
+        self.heating = !value;
+        self.cooling = value;
+    }
+
     #[dbus_interface(property, name = "Min_humidity")]
-    fn min_humidity(&self) -> &f32 {
+    fn get_min_humidity(&self) -> &u16 {
         &self.min_humidity
     }
 
+    #[dbus_interface(property, name = "Min_humidity")]
+    fn set_min_humidity(&mut self, value: u16) {
+        self.min_humidity = value;
+    }
+
     #[dbus_interface(property, name = "Max_humidity")]
-    fn max_humidity(&self) -> &f32 {
+    fn get_max_humidity(&self) -> &u16 {
         &self.max_humidity
     }
 
-    #[dbus_interface(property, name = "Ventilation")]
-    fn ventilation(&self) -> &bool {
-        &self.ventilation
+    #[dbus_interface(property, name = "Max_humidity")]
+    fn set_max_humidity(&mut self, value: u16) {
+        self.max_humidity = value
+    }
+
+    #[dbus_interface(property, name = "Ventilation_auto")]
+    fn get_ventilation_auto(&self) -> &bool {
+        &self.ventilation_auto
+    }
+
+    #[dbus_interface(property, name = "Ventilation_auto")]
+    fn set_ventilation_auto(&mut self, value: bool) {
+        self.ventilation_auto = value;
     }
 
     // "Notify" signal (note: no implementation body).
@@ -94,8 +132,8 @@ impl Thermostat {
 }
 
 struct EnvSensor{
-    bus: u8,
-    address: u8,
+    bus: u16,
+    address: u16,
     sensor: BME280<I2cdev,Delay>,
     temperature: f32,
     humidity: f32,
@@ -112,11 +150,11 @@ impl EnvSensor {
     }
 
     #[dbus_interface(property, name = "BUS")]
-    fn bus(&self) -> &u8 {
+    fn bus(&self) -> &u16 {
         &self.bus
     }
     #[dbus_interface(property, name = "ADDRESS")]
-    fn address(&self) -> &u8 {
+    fn address(&self) -> &u16 {
         &self.address
     }
     #[dbus_interface(property, name = "Temperature")]
@@ -146,15 +184,15 @@ impl EnvSensor {
         self.pressure = measurements.pressure;
     }
 
-    fn get_sensor_data_as_string(&mut self) -> String {
+    fn get_sensor_data_as_json(&mut self) -> String {
         self.refresh_sensor_data();
-        format!("Temperature: {}, Humidity: {}, Pressure: {}", self.temperature, self.humidity, self.pressure)
+        format!(r#""Temperature": {}, "Humidity": {}, "Pressure": {}"#, self.temperature, self.humidity, self.pressure)
     }
 }
 
 
 struct Ventilation{
-    pin: u8,
+    pin: u16,
     state_on: bool,
 }
 #[dbus_interface(name = "org.HCPanel.Ventilation")]
@@ -168,20 +206,68 @@ impl Ventilation {
     }
 
     #[dbus_interface(property, name = "PIN")]
-    fn get_pin(&self) -> &u8 {
+    fn get_pin(&self) -> &u16 {
         &self.pin
     }
 
-    #[dbus_interface(property, name = "STATE")]
+    #[dbus_interface(property, name = "PIN")]
+    fn set_pin(&mut self, value: u16) {
+        self.pin = value;
+    }
+
+    #[dbus_interface(property, name = "State_on")]
     fn get_state_on(&self) -> &bool {
         &self.state_on
     }
+
+    #[dbus_interface(property, name = "State_on")]
+    fn set_state_on(&mut self, value: bool) {
+        self.state_on = value;
+    }
+}
+
+struct Cooling{
+    pin: u16,
+    state_on: bool,
+}
+
+#[dbus_interface(name = "org.HCPanel.Cooling")]
+impl Cooling {
+    // "Quit" method. A method may throw errors.
+    fn quit(&self, #[zbus(header)] hdr: MessageHeader<'_>) -> zbus::fdo::Result<()> {
+        let path = hdr.path()?.unwrap();
+        let msg = format!("You are leaving me on the {} path?", path);
+
+        Err(zbus::fdo::Error::Failed(msg))
+    }
+
+    #[dbus_interface(property, name = "PIN")]
+    fn get_pin(&self) -> &u16 {
+        &self.pin
+    }
+
+    #[dbus_interface(property, name = "PIN")]
+    fn set_pin(&mut self, value: u16) {
+        self.pin = value;
+    }
+
+    #[dbus_interface(property, name = "State_on")]
+    fn get_state_on(&self) -> &bool {
+        &self.state_on
+    }
+
+    #[dbus_interface(property, name = "State_on")]
+    fn set_state_on(&mut self, value: bool) {
+        self.state_on = value;
+    }
+
 }
 
 struct Heating{
-    heating_output: bool,
-    cooling_output: bool,
+    pin: u16,
+    state_on: bool,
 }
+
 #[dbus_interface(name = "org.HCPanel.Heating")]
 impl Heating {
     // "Quit" method. A method may throw errors.
@@ -192,22 +278,34 @@ impl Heating {
         Err(zbus::fdo::Error::Failed(msg))
     }
 
-    #[dbus_interface(property, name = "Heating_output")]
-    fn heating_output(&self) -> &bool {
-        &self.heating_output
+    #[dbus_interface(property, name = "PIN")]
+    fn get_pin(&self) -> &u16 {
+        &self.pin
     }
 
-    #[dbus_interface(property, name = "Cooling_output")]
-    fn cooling_output(&self) -> &bool {
-        &self.cooling_output
+    #[dbus_interface(property, name = "PIN")]
+    fn set_pin(&mut self, value: u16) {
+        self.pin = value;
     }
+
+    #[dbus_interface(property, name = "State_on")]
+    fn get_state_on(&self) -> &bool {
+        &self.state_on
+    }
+
+    #[dbus_interface(property, name = "State_on")]
+    fn set_state_on(&mut self, value: bool) {
+        self.state_on = value;
+    }
+
 }
 
 
 struct Lights{
-    pin: u8,
+    pin: u16,
     state_on: bool,
 }
+
 #[dbus_interface(name = "org.HCPanel.Lights")]
 impl Lights {
     // "Quit" method. A method may throw errors.
@@ -219,13 +317,23 @@ impl Lights {
     }
 
     #[dbus_interface(property, name = "PIN")]
-    fn get_pin(&self) -> &u8 {
+    fn get_pin(&self) -> &u16 {
         &self.pin
+    }
+
+    #[dbus_interface(property, name = "PIN")]
+    fn set_pin(&mut self, value: u16) {
+        self.pin = value;
     }
 
     #[dbus_interface(property, name = "STATE")]
     fn get_state_on(&self) -> &bool {
         &self.state_on
+    }
+
+    #[dbus_interface(property, name = "STATE")]
+    fn set_state_on(&mut self, value: bool) {
+        self.state_on = value;
     }
 }
 
@@ -241,28 +349,23 @@ pub fn run() -> Result<(), Box<dyn Error>> {
     )?;
 
     let mut object_server = zbus::ObjectServer::new(&connection);
-    println!("test3");
     
     let mut thermostat = Thermostat{
-    min_temp: 20.0,
-    max_temp: 25.0,
-    temp_hysteresis_up: 1.0,
-    temp_hysteresis_down: 1.0,
-    auto: true,
+    min_temp: 20,
+    max_temp: 25,
+    temperature_auto: true,
     heating: false,
     cooling: false,
-    min_humidity: 40.0,
-    max_humidity: 65.0,
-    humidity_hysteresis_down: 5.0,
-    humidity_hysteresis_up: 5.0,
-    ventilation: false,
-    
+    min_humidity: 30,
+    max_humidity: 45,
+    ventilation_auto: true,
+    ventilation: false,    
     };
     let mut _sensor = BME280::new(I2cdev::new(String::from("/dev/i2c-1")).unwrap(), 0x76, Delay);
     _sensor.init();
     let mut bme_280 = EnvSensor{
-        bus: Regex::new(r"^.*i2c-").unwrap().replace_all(&String::from("/dev/i2c-1"), "").parse::<u8>().unwrap(),
-        // bus: Regex::new(r"^.*i2c-").unwrap().replace_all(&i2c_path, "").parse::<u8>().unwrap(),
+        bus: Regex::new(r"^.*i2c-").unwrap().replace_all(&String::from("/dev/i2c-1"), "").parse::<u16>().unwrap(),
+        // bus: Regex::new(r"^.*i2c-").unwrap().replace_all(&i2c_path, "").parse::<u16>().unwrap(),
         address: 0x76,
         sensor: _sensor,
         temperature: 0.0,
@@ -274,31 +377,30 @@ pub fn run() -> Result<(), Box<dyn Error>> {
         state_on: false,
     };
     let mut heating = Heating{
-        heating_output: false,
-        cooling_output: false,
+        pin: 12,
+        state_on: false,
+    };
+    let mut cooling = Cooling{
+        pin: 10,
+        state_on: false,
     };
     let mut lights = Lights{
         pin: 1,
         state_on: false,
     };
 
-    println!("test4");
     object_server.at(&"/org/HCPanel/Thermostat".try_into()?, thermostat)?;
     
     object_server.at(&"/org/HCPanel/Sensors/BME280".try_into()?, bme_280)?;
-    // object_server.at(&"/org/HCPanel/Sensors/other".try_into()?, bme_280)?;
 
-    object_server.at(&"/org/HCPanel/Control/Heating/Kitchen".try_into()?, heating)?;
-    object_server.at(&"/org/HCPanel/Control/Ventilation/Kitchen".try_into()?, ventilation)?;
+    object_server.at(&"/org/HCPanel/Control/Heating".try_into()?, heating)?;
+    object_server.at(&"/org/HCPanel/Control/Cooling".try_into()?, cooling)?;
+    object_server.at(&"/org/HCPanel/Control/Ventilation".try_into()?, ventilation)?;
 
-    object_server.at(&"/org/HCPanel/Control/Lights/Kitchen".try_into()?, lights)?;
-    println!("test5");
+    object_server.at(&"/org/HCPanel/Control/Lights".try_into()?, lights)?;
     loop {
         if let Err(err) = object_server.try_handle_next() {
             eprintln!("{}", err);
         }
-        println!("test6aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-        // println!("{}", bme_280.get_sensor_data_as_string());
     }
-    println!("test6");
 }
