@@ -44,7 +44,7 @@ def temperature():
 def turn_on():
     return thermostat.TurnOn
 
-@api.route('thermostat/methods/Quit', methods = ['POST'])
+@api.route('/thermostat/methods/Quit', methods = ['POST'])
 def quit_thermostat():
     return thermostat.Quit
 

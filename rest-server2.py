@@ -70,23 +70,44 @@ def get_list_of_available_sensors():
 @api.route('/sensors/RefreshSensorData', methods=['GET', 'POST'])
 def refreshSensorData():
 	content = request.json
-	hcpanel.refreshSensorData(content['name'])
+	if content is not None:
+		name = content['name']
+	else:
+		name = request.args.get('name')
+	hcpanel.refreshSensorData(name)
 	return "", 200
 
 @api.route('/sensors/getSensorData', methods=['GET', 'POST'])
 def getSensorData():
 	content = request.json
-	return jsonify(hcpanel.getEnvSensorData(content['name']))
+	if content is not None:
+		name = content['name']
+	else:
+		name = request.args.get('name')
+	return hcpanel.getEnvSensorData(name)
+	# return jsonify(hcpanel.getEnvSensorData(content['name']))
 
 @api.route('/thermostat/getProperty', methods=['GET', 'POST'])
 def thermostatGetProperty():
 	content = request.json
-	return jsonify(hcpanel.get_thrmostat_property(content['name']))
+	print(content)
+	if content is not None:
+		name = content['name']
+	else:
+		name = request.args.get('name')
+	return jsonify(hcpanel.get_thrmostat_property(name))
+	# return jsonify(hcpanel.get_thrmostat_property(content['name']))
 
 @api.route('/thermostat/setProperty', methods=['GET', 'POST'])
 def thermostatSetProperty():
 	content = request.json
-	return jsonify(hcpanel.set_thrmostat_property(content['name'], content['value']))
+	if content is not None:
+		name = content['name']
+		value = content['value']
+	else:
+		name = request.args.get('name')
+		value = request.args.get('value')
+	return jsonify(hcpanel.set_thrmostat_property(name, value))
 
 
 def main():

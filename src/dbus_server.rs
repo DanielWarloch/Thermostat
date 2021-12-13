@@ -186,7 +186,7 @@ impl EnvSensor {
 
     fn get_sensor_data_as_json(&mut self) -> String {
         self.refresh_sensor_data();
-        format!(r#""Temperature": {}, "Humidity": {}, "Pressure": {}"#, self.temperature, self.humidity, self.pressure)
+        format!("Temperature: {}, Humidity: {}, Pressure: {}", self.temperature, self.humidity, self.pressure)
     }
 }
 
