@@ -80,7 +80,6 @@ impl Thermostat {
 
     #[dbus_interface(property, name = "Heating")]
     fn set_heating(&mut self, value: bool){
-        self.cooling = !value;
         self.heating = value;
     }
 
@@ -91,7 +90,6 @@ impl Thermostat {
 
     #[dbus_interface(property, name = "Cooling")]
     fn set_cooling(&mut self, value: bool) {
-        self.heating = !value;
         self.cooling = value;
     }
 

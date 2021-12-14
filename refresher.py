@@ -31,7 +31,7 @@ def BME280_heating(thermostat, sensor, heating, cooling):
         if sensor.Temperature < thermostat.Min_temp:
             heating.State_on = True
         elif sensor.Temperature > thermostat.Min_temp:
-            heating.State_on = True
+            heating.State_on = False
         if sensor.Temperature > thermostat.Max_temp:
             cooling.State_on = True
         else:

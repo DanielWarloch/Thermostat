@@ -17,13 +17,13 @@ class HCPanel:
 		elif name=="Heating":
 			termostat.Heating = bool((distutils.util.strtobool(value)))
 		elif name=="Max_humidity":
-			termostat.Max_humidity = int(value)
+			termostat.Max_humidity = int(float(value))
 		elif name=="Max_temp":
-			termostat.Max_temp = int(value)
+			termostat.Max_temp = int(float(value))
 		elif name=="Min_humidity":
-			termostat.Min_humidity = int(value)
+			termostat.Min_humidity = int(float(value))
 		elif name=="Min_temp":
-			termostat.Min_temp = int(value)
+			termostat.Min_temp = int(float(value))
 		elif name=="Temperature_auto":
 			termostat.Temperature_auto = bool((distutils.util.strtobool(value)))
 		elif name=="Ventilation_auto":
@@ -33,6 +33,10 @@ class HCPanel:
 	def get_thrmostat_property(self, name):
 		return getattr(self.bus.get('org.HCPanel', f"/org/HCPanel/Thermostat"), name)
 
+	def get_control_device_property(self, device_name, property_name):
+		a = getattr(self.bus.get('org.HCPanel', f'/org/HCPanel/Control/{device_name}'), property_name)
+		return f'{a}'
+
 	def refreshSensorData(self, sensor_name):
 		return self.bus.get('org.HCPanel', f"/org/HCPanel/Sensors/{sensor_name}").RefreshSensorData
 
@@ -41,7 +45,7 @@ class HCPanel:
 		# humidity = self.bus.get('org.HCPanel', f"/org/HCPanel/Sensors/{sensor_name}").Humidity
 		# pressure = self.bus.get('org.HCPanel', f"/org/HCPanel/Sensors/{sensor_name}").Pressure
 		# return {"Temperature": temperature, "Humidity": humidity, "Pressure": pressure}
-		a = self.bus.get('org.HCPanel', f"/org/HCPanel/Sensors/{sensor_name}").GetSensorDataAsJson()
+		a = self.bus.get('org.HCPanel', f'/org/HCPanel/Sensors/{sensor_name}').GetSensorDataAsJson()
 		return f"{a}"
 
 	def get_list_of_available_sensors(self):
@@ -96,6 +100,20 @@ def thermostatGetProperty():
 	else:
 		name = request.args.get('name')
 	return jsonify(hcpanel.get_thrmostat_property(name))
+	# return jsonify(hcpanel.get_thrmostat_property(content['name']))
+
+@api.route('/getControlDeviceProperty', methods=['GET', 'POST'])
+def get_control_device_property():
+	content = request.json
+	print(content)
+	if content is not None:
+		device = content['device']
+		property_name = content['property']
+	else:
+		device = request.args.get('device')
+		property_name = request.args.get('property')
+	print('aaaaaaaaaaaaaaa', device, property_name)
+	return hcpanel.get_control_device_property(device,property_name)
 	# return jsonify(hcpanel.get_thrmostat_property(content['name']))
 
 @api.route('/thermostat/setProperty', methods=['GET', 'POST'])
